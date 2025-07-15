@@ -1,106 +1,81 @@
-Project: RehabConnect - Patient Progress Tracker
+// Project: RehabConnect (MongoDB Version)
+// Stack: Node.js + Express + Mongoose (MongoDB)
 
-Backend: Java + Spring Boot
+// File: README.md
 
-# RehabConnect Backend
+# RehabConnect Backend – Node.js + MongoDB
 
-A backend service for logging and tracking physical therapy sessions.
-Built with Java + Spring Boot and designed to be deployed on AWS (Lambda + API Gateway + Cognito) with support for relational or NoSQL databases.
+A RESTful backend API for logging and tracking physical therapy sessions.
+This version uses Node.js with Express and MongoDB (via Mongoose).
+
+---
 
 ## Features
-- Patients can log daily rehab activities
-- PTs can track progress and update rehab plans
-- Secure user login with AWS Cognito
-- RESTful API
-- Supports multiple database backends (PostgreSQL, MySQL, or DynamoDB)
+- REST API: POST /log, GET /progress/:patientId
+- MongoDB schema for rehab sessions
+- JSON-based communication
+- Cleanly separated routes, models, and controllers
 
 ---
 
 ## Tech Stack
-- Java 17
-- Spring Boot 3
-- AWS: Lambda, API Gateway, Cognito, S3 (optional)
-- Databases: PostgreSQL (default), MySQL, or DynamoDB
-- Build Tool: Maven
-- Deployment: SAM CLI / AWS Console / Docker
+- Node.js
+- Express.js
+- MongoDB + Mongoose
+- Nodemon (for dev reloads)
+- dotenv (env variable config)
 
 ---
 
 ## Endpoints
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST   | /log     | Log rehab activity session |
-| GET    | /progress/{patientId} | Retrieve progress logs |
-| PUT    | /plan/{patientId} | Update patient rehab plan |
+| Method | Route                     | Description                         |
+|--------|---------------------------|-------------------------------------|
+| POST   | `/log`                    | Log a new rehab session             |
+| GET    | `/progress/:patientId`   | Get all sessions for a patient      |
 
 ---
 
 ## Folder Structure
 ```
-rehabconnect-backend/
-├── src/
-│   └── main/java/com/rehabconnect/
-│       ├── controller/
-│       ├── model/
-│       ├── service/
-│       └── repository/
-├── resources/
-│   └── application.yml
-├── pom.xml
+rehabconnect-backend-mongodb/
+├── models/
+│   └── SessionLog.js
+├── routes/
+│   └── sessionRoutes.js
+├── controllers/
+│   └── sessionController.js
+├── .env
+├── app.js
+├── package.json
 └── README.md
 ```
 
 ---
 
-## Basic Setup
+## Setup Instructions
+
 ```bash
-git clone https://github.com/yourusername/rehabconnect-backend.git
-cd rehabconnect-backend
-./mvnw spring-boot:run
-```
-
-## Coming Soon
-- React Frontend (optional)
-- GraphQL migration
-- Docker deployment
-
----
-
-## Architecture Overview
-```
-[Frontend (React/HTML)]
-      ↓
-[API Gateway (REST)]
-      ↓
-[AWS Lambda (Spring Boot)]
-      ↓
-[Relational DB (PostgreSQL/MySQL) or NoSQL (DynamoDB)]
-      ↓
-[Cognito (Auth)]
+git clone https://github.com/yourusername/rehabconnect-backend-mongodb.git
+cd rehabconnect-backend-mongodb
+npm install
+cp .env.example .env # Then fill in your Mongo URI
+npm run dev
 ```
 
 ---
 
-## Example Data Model (SQL/JSON)
+## Example Mongo Document
 ```json
 {
   "patientId": "abc-123",
-  "date": "2025-06-23",
-  "painLevel": 4,
+  "sessionDate": "2025-07-14",
+  "painLevel": 3,
   "exercises": ["Bridge", "Bird Dog"],
-  "repsCompleted": 20
+  "repsCompleted": 25
 }
 ```
 
-SQL Table Example:
-```sql
-CREATE TABLE session_logs (
-  id SERIAL PRIMARY KEY,
-  patient_id VARCHAR(255),
-  session_date DATE,
-  pain_level INTEGER,
-  exercises TEXT[],
-  reps_completed INTEGER
-);
-```
+---
 
+## License
+MIT
